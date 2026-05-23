@@ -60,9 +60,9 @@ private:
      * Helper that runs our recursive backtracking to generate guesses
      * @return set of all possible guesses as strings
      */
-    void StrategyBFS::generateGuessesHelper(std::string& current_guess, std::vector<bool>& used, std::set<std::string>& guesses) const;
+    void generateGuessesHelper(std::string& current_guess, std::vector<bool>& used, std::set<std::string>& guesses) const;
 
-    /**
+    /** 
      * Calculate feedback (bulls and cows) between two guesses
      * @param guess - the guessed number
      * @param secret - the secret number

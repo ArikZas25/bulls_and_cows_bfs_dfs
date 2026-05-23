@@ -1,47 +1,51 @@
-#include "IStrategy.h"
 #include "StrategyDFS.h"
 
+StrategyDFS::StrategyDFS(int n, int k) : n(n), k(k), finished(false) {
+    std::string current;
+    std::vector<bool> used(k + 1, false);
+    generateCandidates(current, used);
+}
+
+void StrategyDFS::generateCandidates(std::string& current, std::vector<bool>& used) {
+    if ((int)current.size() == n) {
+        candidates.push_back(current);
+        return;
+    }
+    for (int i = 1; i <= k; ++i) {
+        if (!used[i]) {
+            used[i] = true;
+            current.push_back('0' + i);
+            generateCandidates(current, used);
+            current.pop_back();
+            used[i] = false;
+        }
+    }
+}
+
+std::pair<int, int> StrategyDFS::calculateFeedback(const std::string& guess, const std::string& secret) const {
+    int bulls = 0, cows = 0;
+    for (int i = 0; i < n; ++i) {
+        if (guess[i] == secret[i]) bulls++;
+        else if (secret.find(guess[i]) != std::string::npos) cows++;
+    }
+    return { bulls, cows };
+}
 
 std::string StrategyDFS::getNextGuess() {
-    if (currentGuess.empty()) {
-        currentGuess = getFirstGuess();
-        return currentGuess;
-    }
-
-    // Change the digits of the guess until a consistent guess is found [cite: 171, 172]
-    // We look for the next lexicographically smallest consistent guess [cite: 177]
-    do {
-        generateNextLexicographicalGuess(currentGuess);
-    } while (!isConsistent(currentGuess) && !currentGuess.empty());
-
-    return currentGuess;
+    lastGuess = candidates.front();
+    return lastGuess;
 }
 
 void StrategyDFS::handleFeedback(int bulls, int cows) {
-    if (bulls == n) {
-        finished = true; // We won [cite: 170]
+    if (bulls == n) { finished = true; return; }
+    std::vector<std::string> newCandidates;
+    for (const std::string& c : candidates) {
+        auto [b, cv] = calculateFeedback(lastGuess, c);
+        if (b == bulls && cv == cows) newCandidates.push_back(c);
     }
-    else {
-        // Save to history to check consistency for future guesses
-        history.push_back({ currentGuess, {bulls, cows} });
-    }
+    candidates = newCandidates;
 }
 
-bool StrategyDFS::isConsistent(const std::string& candidate) const {
-    for (const auto& record : history) {
-        const std::string& pastGuess = record.first;
-        int expectedBulls = record.second.first;
-        int expectedCows = record.second.second;
-
-        // Calculate what the feedback WOULD be
-        std::pair<int, int> simulatedFeedback = calculateFeedback(candidate, pastGuess);
-
-        if (simulatedFeedback.first != expectedBulls || simulatedFeedback.second != expectedCows) {
-            return false; // Not consistent with this past guess
-        }
-    }
-    return true; // Consistent with ALL past guesses
+bool StrategyDFS::isFinished() const {
+    return finished;
 }
-
-
-
