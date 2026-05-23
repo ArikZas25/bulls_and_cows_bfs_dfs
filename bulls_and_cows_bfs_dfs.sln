@@ -1,31 +1,18 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35828.75 d17.13
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bulls_and_cows_bfs_dfs", "bulls_and_cows_bfs_dfs\bulls_and_cows_bfs_dfs.vcxproj", "{61BD6B2B-3375-47FD-8411-735615A37151}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bulls_and_cows_bfs_dfs", "bulls_and_cows_bfs_dfs.vcxproj", "{YOUR-GUID-HERE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
-		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{61BD6B2B-3375-47FD-8411-735615A37151}.Debug|x64.ActiveCfg = Debug|x64
-		{61BD6B2B-3375-47FD-8411-735615A37151}.Debug|x64.Build.0 = Debug|x64
-		{61BD6B2B-3375-47FD-8411-735615A37151}.Debug|x86.ActiveCfg = Debug|Win32
-		{61BD6B2B-3375-47FD-8411-735615A37151}.Debug|x86.Build.0 = Debug|Win32
-		{61BD6B2B-3375-47FD-8411-735615A37151}.Release|x64.ActiveCfg = Release|x64
-		{61BD6B2B-3375-47FD-8411-735615A37151}.Release|x64.Build.0 = Release|x64
-		{61BD6B2B-3375-47FD-8411-735615A37151}.Release|x86.ActiveCfg = Release|Win32
-		{61BD6B2B-3375-47FD-8411-735615A37151}.Release|x86.Build.0 = Release|Win32
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {5056AB18-DACD-4B22-B5FB-E1271FDC2E03}
+		{YOUR-GUID-HERE}.Debug|x64.ActiveCfg = Debug|x64
+		{YOUR-GUID-HERE}.Debug|x64.Build.0 = Debug|x64
+		{YOUR-GUID-HERE}.Release|x64.ActiveCfg = Release|x64
+		{YOUR-GUID-HERE}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 EndGlobal
