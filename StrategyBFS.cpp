@@ -1,11 +1,12 @@
 #include "StrategyBFS.h"
 #include <algorithm>
+#include <climits>
 #include <cmath>
 #include <numeric>
 
 StrategyBFS::StrategyBFS(int n, int k)
     : n(n), k(k), finished(false) {
-    // Initialize S with all possible n-digit guesses with digits in range [0, k-1]
+    // Initialize S with all possible n-digit guesses with digits in range [1, k]
     S = generateAllGuesses();
 }
 
@@ -67,7 +68,6 @@ void StrategyBFS::generateGuessesHelper(std::string& current_guess, std::vector<
     }
 }
 
-
 std::pair<int, int> StrategyBFS::calculateFeedback(const std::string& guess, const std::string& secret) const {
     int bulls = 0;
     int cows = 0;
@@ -80,15 +80,17 @@ std::pair<int, int> StrategyBFS::calculateFeedback(const std::string& guess, con
         }
     }
 
-
-    return { bulls, cows };
+    return std::make_pair(bulls, cows); // Using make_pair for absolute C++11 safety
 }
 
 void StrategyBFS::filterConsistent(int bulls, int cows) {
     // Remove all candidates from S that don't produce the same feedback
     std::set<std::string> newS;
     for (const std::string& candidate : S) {
-        auto [b, c] = calculateFeedback(lastGuess, candidate);
+        auto feedback = calculateFeedback(lastGuess, candidate);
+        int b = feedback.first;
+        int c = feedback.second;
+
         if (b == bulls && c == cows) {
             newS.insert(candidate);
         }
@@ -97,26 +99,26 @@ void StrategyBFS::filterConsistent(int bulls, int cows) {
 }
 
 int StrategyBFS::calculateSearchSpaceDepth(const std::string& guess) const {
-    int maxDepth = 0;
     // For each possible secret in S, calculate cost(guess, secret)
     // cost(guess, secret) = number of remaining candidates after filtering with that feedback
+    int maxDepth = 0;
     for (const std::string& secret : S) {
         auto feedback = calculateFeedback(guess, secret);
         int b = feedback.first;
-        int c = feedback.second;;
+        int c = feedback.second;
 
-        // Count how many candidates would remain if we got feedback (b, c)
         int count = 0;
         for (const std::string& candidate : S) {
-            auto [cb, cc] = calculateFeedback(guess, candidate);
+            auto f2 = calculateFeedback(guess, candidate);
+            int cb = f2.first;
+            int cc = f2.second;
+
             if (cb == b && cc == c) {
                 count++;
             }
         }
-
         maxDepth = std::max(maxDepth, count);
     }
-
     return maxDepth;
 }
 
@@ -128,14 +130,10 @@ std::string StrategyBFS::selectBestGuess() {
 
     for (const std::string& guess : S) {
         int depth = calculateSearchSpaceDepth(guess);
-        // Choose this guess if:
-        // 1. It has smaller depth than current best, OR
-        // 2. Same depth but lexicographically smaller
-        if (depth < minDepth || (depth == minDepth && guess < bestGuess)) {
+        if (depth < minDepth || (depth == minDepth && guess < bestGuess) || bestGuess.empty()) {
             minDepth = depth;
             bestGuess = guess;
         }
     }
-
     return bestGuess;
 }
