@@ -4,6 +4,7 @@
 #include "IStrategy.h"
 #include <vector>
 #include <string>
+#include <utility>
 
 class StrategyDFS : public IStrategy {
 public:
@@ -15,11 +16,15 @@ public:
 private:
     int n, k;
     bool finished;
-    std::string lastGuess;
-    std::vector<std::string> candidates;
+    std::string currentGuess;
+
+    // Store past guesses and their feedback to verify future candidates
+    std::vector<std::pair<std::string, std::pair<int, int>>> history;
 
     std::pair<int, int> calculateFeedback(const std::string& guess, const std::string& secret) const;
-    void generateCandidates(std::string& current, std::vector<bool>& used);
+    bool isConsistent(const std::string& candidate) const;
+    void generateNextLexicographicalGuess();
+    bool hasUniqueDigits(const std::string& str) const;
 };
 
 #endif

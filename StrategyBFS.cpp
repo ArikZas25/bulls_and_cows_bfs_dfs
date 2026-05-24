@@ -101,7 +101,9 @@ int StrategyBFS::calculateSearchSpaceDepth(const std::string& guess) const {
     // For each possible secret in S, calculate cost(guess, secret)
     // cost(guess, secret) = number of remaining candidates after filtering with that feedback
     for (const std::string& secret : S) {
-        auto [b, c] = calculateFeedback(guess, secret);
+        auto feedback = calculateFeedback(guess, secret);
+        int b = feedback.first;
+        int c = feedback.second;;
 
         // Count how many candidates would remain if we got feedback (b, c)
         int count = 0;
