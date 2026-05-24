@@ -128,11 +128,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="GAME.h" />
     <ClInclude Include="IStrategy.h" />
     <ClInclude Include="StrategyBFS.h" />
     <ClInclude Include="StrategyDFS.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GAME.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="StrategyBFS.cpp" />
     <ClCompile Include="StrategyDFS.cpp" />
